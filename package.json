@@ -6,23 +6,28 @@
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
- "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-  "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-  "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
-"jest": {
-  "preset": "ts-jest/presets/default-esm",
-  "testEnvironment": "node",
-  "moduleNameMapper": {
-    "^(\\.{1,2}/.*)\\.js$": "$1"
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "transform": {
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup.ts"
+    ]
   },
-  "transform": {
-    "^.+\\.tsx?$": ["ts-jest", {
-      "useESM": true
-    }]
-  },
-  "setupFilesAfterEnv": ["<rootDir>/src/tests/setup.ts"]
-},
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^2.4.6",
@@ -52,6 +57,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "express-validator": "^7.3.2",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.21.0"

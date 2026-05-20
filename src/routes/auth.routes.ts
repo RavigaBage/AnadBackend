@@ -7,6 +7,7 @@ import {
   generateRefreshToken,
   verifyToken,
 } from '../utils/jwt/auth.token.js';
+import { validation } from '../middleware/validation.js';
 import { authenticate } from '../middleware/auth.js';
 import type { AuthRequest } from '../middleware/auth.js';
 
@@ -20,7 +21,7 @@ const cookieOptions = {
 };
 
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', validation,async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
 
@@ -64,7 +65,7 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login',validation, async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -103,7 +104,7 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/refresh', async (req: Request, res: Response) => {
+router.post('/refresh', validation,async (req: Request, res: Response) => {
   try {
     const refreshToken = req.cookies?.refreshToken;
 
@@ -136,7 +137,7 @@ router.post('/refresh', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/logout', authenticate, async (req: AuthRequest, res: Response) => {
+router.post('/logout',validation, authenticate, async (req: AuthRequest, res: Response) => {
   try {
     res.clearCookie('refreshToken', cookieOptions);
     return res.json({ message: 'Logged out successfully' });
